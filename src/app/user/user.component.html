@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row mt-4">
+
+  <div class="col-md-6">
+  <div class = "row">
+    <div class = "col">
+<h5>{{firstname}} {{lastname}} working from {{datefrom | date}}</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col d-flex justify-content-start d-flex align-items-center">
+
+    <div class="mr-4">
+      <app-modal (dataEvent)="sendVacationData($event)"></app-modal>
+    </div>
+    <div class="mr-2"><h6>Select year for list of vacations</h6></div>
+    <div>
+      <select name="year" [(ngModel)]="year" class="shadow-lg p-1 bg-white rounded">
+        <option value="2010">2010</option>
+        <option value="2011">2011</option>
+        <option value="2012">2012</option>
+        <option value="2013">2013</option>
+        <option value="2014">2014</option>
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019" selected="selected">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+      </select>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="col-6  d-flex align-items-center days">
+         <h5 class="mr-3">Days of vacation</h5>
+         <h1 class="border border-info p-3 rounded">{{vacationdays}}</h1>
+      </div>
+</div>
+
+  <div *ngFor="let vacation of vacationsData" class="row mt-2 mb-2 list-group overflow-auto" >
+    <div *ngIf="vacation.fromyear == [year]" class="col-md-8 list-group-item list-group-item-action">
+      <div class="row">
+        <div class="col d-flex align-items-center">
+          <h6>Vacation from: {{vacation.fromdate | date}} to: {{vacation.todate | date}} for: {{vacation.vacation}} days</h6>
+
+              <button type="button" name="button" (click)="deleteItem(vacation.id, vacation.vacation, vacation.userid)" class="btn btn-danger mr-2">Delete</button>
+               <app-update-modal [vacation]="vacation" (dataEvent)="updateVacationData($event)" ></app-update-modal>
+
+        </div>
+      </div>
+      <div class="row">
+           <h6> Description: {{vacation.description}}</h6>
+      </div>
+
+</div>
+</div>
+</div>

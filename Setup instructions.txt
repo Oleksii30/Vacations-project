@@ -1,0 +1,20 @@
+Set up instructions:
+
+1.Node modules: npm install
+
+2.Required modules for server:
+	body-parser
+	cors
+	morgan
+	errorhandler
+	express
+	express-session
+	sqlite3
+
+3. To run program npm start
+
+4.Users in database:
+
+1.First name:Yurii  Last name:Andruhovych  password:123
+2.First name:Serhii Last name:Zhadan       password:456
+3.First name:Serhii Last name:Moroz        password:789

@@ -1,0 +1,23 @@
+.btn-danger{
+  margin-left: 155px;
+}
+@media (max-width: 576px) {
+  h5{
+    font-size: 15px;
+  }
+  h1{
+    font-size: 20px;
+    }
+  button{
+    font-size: 12px;
+  }
+  h6{
+    font-size: 15px;
+  }
+  .btn-danger{
+    margin-left: 15px;
+  }
+  .days{
+    margin-top: 5px;
+  }
+}
