@@ -75,7 +75,7 @@ export class UpdateModalComponent implements OnInit{
         if (this.fromDate && !this.toDate){
           alert('Please enter end of vacation date')
         }else{
-        let data = [fromDateSend.year,fromDateSend.month, fromDateSend.day, toDateSend.year, toDateSend.month, toDateSend.day, this.description, this.vacation.id, this.vacation.vacation]
+        let data = [fromDateSend.year,fromDateSend.month, fromDateSend.day, toDateSend.year, toDateSend.month, toDateSend.day, this.description, this.vacation.id, this.vacation.vacation, this.vacation.fromdate]
           this.dataEvent.emit(data);
         }
     }

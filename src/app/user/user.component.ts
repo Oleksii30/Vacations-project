@@ -65,6 +65,27 @@ export class UserComponent implements OnInit {
       })
      }
 
+     countWeekends(dt1,dt2){
+       let count = 0
+       let curDate = new Date(dt1.setDate(dt1.getDate()-1))
+       while(curDate < dt2){
+       curDate = new Date(curDate.setDate(curDate.getDate()+1))
+       if(curDate.getDay() == 0 || curDate.getDay() == 6){
+         count+=1
+       }
+         }
+         return count
+     }
+
+     getArrOfDays(dt1,dt2){
+       let curDate = new Date(dt1.setDate(dt1.getDate()))
+       let dates =[]
+       while(curDate < dt2){
+         dates.push(curDate)
+       curDate = new Date(curDate.setDate(curDate.getDate()+1))
+         }
+         return dates
+     }
 
 
     sendVacationData($event) {
@@ -81,14 +102,26 @@ export class UserComponent implements OnInit {
     let dt1 = new Date(datefrom);
     let dt2 = new Date(dateTo);
 
-    let vacation = this.vacationDays(dt1,dt2)+1
+//Days of new vacation minus weekends
+    let vacation = this.vacationDays(dt1,dt2)+1-this.countWeekends(dt1,dt2)
 
-      if (this.vacationdays>=vacation){
+//Check if days of new vacation cross with existing vacations
+    let dates = this.getArrOfDays(dt1,dt2)
+    let inRange = this.vacationsData.some(vacation=>{
+      let vacStart = new Date(vacation.fromdate)
+      let vacEnd = new Date(vacation.todate)
+      return dates.some(date =>{
+        return date >= vacStart && date < vacEnd
+      })
+    })
+
+      if (this.vacationdays>=vacation && !inRange){
         this.Auth.addVacation(this.routeParams.userid, datefrom, dateTo, vacation, description,fromYear).subscribe(data=>{
           this.vacationsData = data["vacations"];
           this.vacationdays = data["vac"]
         })
-
+      }else{
+        alert("Not possible to add Vacation")
       }
     }
 
@@ -116,20 +149,34 @@ export class UserComponent implements OnInit {
     let description = this.data[6];
     let vacationId = this.data[7];
     let prewVacationDays = this.data[8];
+    let prewVacationStart = this.data[9]
     let datefrom = fromYear+','+fromMonth+','+fromDay;
     let dateTo = toYear+','+toMonth+','+toDay;
     console.log(this.data)
     let dt1 = new Date(datefrom);
     let dt2 = new Date(dateTo);
+    
+//Days of new vacation minus weekends
+    let vacation = this.vacationDays(dt1,dt2)+1-this.countWeekends(dt1,dt2)
 
-    let vacation = this.vacationDays(dt1,dt2)+1
+//Check if days of new vacation cross with existing vacations
+    let dates = this.getArrOfDays(dt1,dt2)
+    let inRange = this.vacationsData.some(vacation=>{
+      let vacStart = new Date(vacation.fromdate)
+      let vacEnd = new Date(vacation.todate)
+      return dates.some(date =>{
+        return date >= vacStart && date < vacEnd && vacation.fromdate != prewVacationStart
+      })
+    })
 
-      if (this.vacationdays + prewVacationDays>=vacation){
+      if (this.vacationdays + prewVacationDays>=vacation && !inRange){
         this.Auth.updateVacation(this.routeParams.userid, datefrom, dateTo, vacation, prewVacationDays, description, vacationId, fromYear).subscribe(data=>{
           this.vacationsData = data["vacations"];
           this.vacationdays = data["vac"]
         })
-
+      }
+      else{
+          alert("Not possible to update Vacation")
       }
     }
 
