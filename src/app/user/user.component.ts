@@ -57,7 +57,7 @@ export class UserComponent implements OnInit {
         this.vacationdays = data['user'].vacationdays;
         this.summ = data['summ'][0]
         this.summ = Object.values(this.summ)[0]
-        this.setVacationDays()
+        //this.setVacationDays()
         this.Auth.setVacation(this.routeParams.userid, this.vacationdays).subscribe()
       }else{
          this.router.navigateByUrl('/');
